@@ -1,0 +1,38 @@
+server:
+  port: 8080
+  compression:
+    enabled: true
+    min-response-size: 2048
+    mime-types: 'application/json'
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+spring:
+  profiles:
+    active: dev
+  application:
+    name: light-demo1-service
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      server-addr: localhost:8848
+      config:
+        file-extension: yaml
+        shared-configs:
+          - data-id: light-common.yaml
+            refresh: false
+            group: DEFAULT_GROUP
+          - data-id: light-redis.yaml
+            refresh: false
+            group: DEFAULT_GROUP
+          - data-id: light-jdbc.yaml
+            refresh: false
+            group: DEFAULT_GROUP
+      discovery:
+        metadata:
+          light.mode: ${light.mode}
+          light.service.version: '@light-service.version@'
+          user.home: ${user.home}
+
